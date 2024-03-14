@@ -35,7 +35,7 @@ public class sql_comisiones {
                     + "else 0 end end end\n"
                     + "from cargo c\n"
                     + "where (saldo=0 or saldomx =0) and c.estatus='1' and (" + referencia + ")";
-            System.out.println("get comision " + sql);
+//            System.out.println("get comision " + sql);
             PreparedStatement st;
             ResultSet rs;
             st = c.prepareStatement(sql);
