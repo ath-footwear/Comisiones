@@ -81,8 +81,8 @@ public class sql_comisiones {
                 st.setDouble(9, com.getTipocambio());
                 st.setString(10, com.getSerie());
                 st.setString(11, "1");
-                st.setInt(0, com.getPorcentaje());
-                st.setString(0, com.getFoliopago());
+                st.setInt(12, com.getPorcentaje());
+                st.setString(13, com.getFoliopago());
                 st.executeUpdate();
             }
             c.commit();
