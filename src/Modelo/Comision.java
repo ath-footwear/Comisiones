@@ -10,9 +10,26 @@ package Modelo;
  * @author GATEWAY1-
  */
 public class Comision {
-    private int id_cargo,dias,id_agente;
-    private String moneda,fecha,usuario, estatus, serie, referencia;
-    private double importe,comision,tipocambio;
+
+    private int id_cargo, dias, id_agente, porcentaje;
+    private String moneda, fecha, usuario, estatus, serie, referencia, foliopago;
+    private double importe, comision, tipocambio;
+
+    public int getPorcentaje() {
+        return porcentaje;
+    }
+
+    public void setPorcentaje(int porcentaje) {
+        this.porcentaje = porcentaje;
+    }
+
+    public String getFoliopago() {
+        return foliopago;
+    }
+
+    public void setFoliopago(String foliopago) {
+        this.foliopago = foliopago;
+    }
 
     public String getReferencia() {
         return referencia;
@@ -109,5 +126,5 @@ public class Comision {
     public void setTipocambio(double tipocambio) {
         this.tipocambio = tipocambio;
     }
-    
+
 }

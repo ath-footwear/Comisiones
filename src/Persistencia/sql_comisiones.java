@@ -28,6 +28,10 @@ public class sql_comisiones {
                     + "comision = case when DATEDIFF(day,convert(date,c.fecha),'" + fecha + "')<=30 then importe*0.03 \n"
                     + "else case when DATEDIFF(day,convert(date,c.fecha),'" + fecha + "')>30 and DATEDIFF(day,convert(date,c.fecha),'" + fecha + "')<=45 then importe*0.02 \n"
                     + "else case when DATEDIFF(day,convert(date,c.fecha),'" + fecha + "')>45 and DATEDIFF(day,convert(date,c.fecha),'" + fecha + "')<=60 then importe*0.01 \n"
+                    + "else 0 end end end,\n"
+                    + "porcentaje = case when DATEDIFF(day,convert(date,c.fecha),'" + fecha + "')<=30 then 3 \n"
+                    + "else case when DATEDIFF(day,convert(date,c.fecha),'" + fecha + "')>30 and DATEDIFF(day,convert(date,c.fecha),'" + fecha + "')<=45 then 2 \n"
+                    + "else case when DATEDIFF(day,convert(date,c.fecha),'" + fecha + "')>45 and DATEDIFF(day,convert(date,c.fecha),'" + fecha + "')<=60 then 1 \n"
                     + "else 0 end end end\n"
                     + "from cargo c\n"
                     + "where (saldo=0 or saldomx =0) and c.estatus='1' and (" + referencia + ")";
@@ -44,6 +48,7 @@ public class sql_comisiones {
                 s.setDias(rs.getInt("dias"));
                 s.setComision(rs.getDouble("comision"));
                 s.setId_agente(rs.getInt("id_agente"));
+                s.setPorcentaje(rs.getInt("porcentaje"));
                 arr.add(s);
             }
             rs.close();
@@ -60,8 +65,10 @@ public class sql_comisiones {
             PreparedStatement st;
             c.setAutoCommit(false);
             for (Comision com : arr) {
-                String sql = "insert into comisiones(id_cargo,id_agente,referencia,dias,comision,fecha,usuario,importe,tipocambio,serie,estatus) "
-                        + "values(?,?,?,?,?,?,?,?,?,?,?)";
+                String sql = "insert into comisiones(id_cargo,id_agente,referencia,"
+                        + "dias,comision,fecha,usuario,importe,tipocambio,serie,"
+                        + "estatus, porcentaje, foliopago) "
+                        + "values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
                 st = c.prepareStatement(sql);
                 st.setInt(1, com.getId_cargo());
                 st.setInt(2, com.getId_agente());
@@ -74,6 +81,8 @@ public class sql_comisiones {
                 st.setDouble(9, com.getTipocambio());
                 st.setString(10, com.getSerie());
                 st.setString(11, "1");
+                st.setInt(12, com.getPorcentaje());
+                st.setString(13, com.getFoliopago());
                 st.executeUpdate();
             }
             c.commit();
@@ -111,6 +120,46 @@ public class sql_comisiones {
             }
             return false;
         }
+    }
+
+    public ArrayList<Comision> getcomisiones_Especial(Connection c, String fecha, String referencia) {
+        ArrayList<Comision> arr = new ArrayList<>();
+        try {
+            String sql = "select id_cargo,referencia,importe,"
+                    + "DATEDIFF(day,convert(date,c.fecha),'" + fecha + "') as dias,saldo,saldomx,c.id_agente,\n"
+                    + "comision = case when DATEDIFF(day,convert(date,c.fecha),'" + fecha + "')<=30 then importe*0.03 \n"
+                    + "else case when DATEDIFF(day,convert(date,c.fecha),'" + fecha + "')>30 and DATEDIFF(day,convert(date,c.fecha),'" + fecha + "')<=45 then importe*0.02 \n"
+                    + "else case when DATEDIFF(day,convert(date,c.fecha),'" + fecha + "')>45 and DATEDIFF(day,convert(date,c.fecha),'" + fecha + "')<=60 then importe*0.01 \n"
+                    + "else 0 end end end,\n"
+                    + "porcentaje = case when DATEDIFF(day,convert(date,c.fecha),'" + fecha + "')<=30 then 3 \n"
+                    + "else case when DATEDIFF(day,convert(date,c.fecha),'" + fecha + "')>30 and DATEDIFF(day,convert(date,c.fecha),'" + fecha + "')<=45 then 2 \n"
+                    + "else case when DATEDIFF(day,convert(date,c.fecha),'" + fecha + "')>45 and DATEDIFF(day,convert(date,c.fecha),'" + fecha + "')<=60 then 1 \n"
+                    + "else 0 end end end\n"
+                    + "from cargoespecial c\n"
+                    + "where (saldo=0 or saldomx =0) and c.estatus='1' and (" + referencia + ")";
+//            System.out.println("get comision " + sql);
+            PreparedStatement st;
+            ResultSet rs;
+            st = c.prepareStatement(sql);
+            rs = st.executeQuery();
+            while (rs.next()) {
+                Comision s = new Comision();
+                s.setId_cargo(rs.getInt("id_cargo"));
+                s.setReferencia(rs.getString("referencia"));
+                s.setImporte(rs.getDouble("importe"));
+                s.setDias(rs.getInt("dias"));
+                s.setComision(rs.getDouble("comision"));
+                s.setId_agente(rs.getInt("id_agente"));
+                s.setPorcentaje(rs.getInt("porcentaje"));
+                arr.add(s);
+            }
+            rs.close();
+            st.close();
+        } catch (SQLException ex) {
+
+            Logger.getLogger(sql_comisiones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return arr;
     }
 
 }
