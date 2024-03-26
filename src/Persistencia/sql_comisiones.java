@@ -156,7 +156,6 @@ public class sql_comisiones {
             rs.close();
             st.close();
         } catch (SQLException ex) {
-
             Logger.getLogger(sql_comisiones.class.getName()).log(Level.SEVERE, null, ex);
         }
         return arr;
