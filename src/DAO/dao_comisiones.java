@@ -59,4 +59,19 @@ public class dao_comisiones implements int_Comision {
         return s.cancelacomision(c, arr);
     }
 
+    /**
+     * Obtiene las comisiones si es que existen del pago reciente haciendo como
+     * filtro la fecha de creacion del cargo especial, la fecha de pago y si no
+     * tiene saldo
+     *
+     * @param c
+     * @param fecha
+     * @param referencia
+     * @return
+     */
+    @Override
+    public ArrayList<Comision> getcomisiones_Especial(Connection c, String fecha, String referencia) {
+        return s.getcomisiones_Especial(c, fecha, referencia);
+    }
+
 }
