@@ -74,4 +74,31 @@ public class dao_comisiones implements int_Comision {
         return s.getcomisiones_Especial(c, fecha, referencia);
     }
 
+    /**
+     * Obtiene las comisiones pendientes de pagar a los agentes, osease que
+     * status sea 1
+     *
+     * @param c conexion cpt
+     * @param nombre nombre del agente
+     * @param bd nombre de bd de cobranza
+     * @return lista de comisiones
+     */
+    @Override
+    public ArrayList<Comision> getcomisiones_toadm(Connection c, String nombre, String bd) {
+        return s.getcomisiones_toadm(c, nombre, bd);
+    }
+
+    /**
+     * Cambia el estatus de la comision a "2", esto indica que la comision ha
+     * sido entregada al agente
+     *
+     * @param c
+     * @param com
+     * @return
+     */
+    @Override
+    public boolean Comisionpagada(Connection c, ArrayList<Comision> arr) {
+        return s.Comisionpagada(c, arr);
+    }
+
 }
