@@ -161,4 +161,62 @@ public class sql_comisiones {
         return arr;
     }
 
+    public ArrayList<Comision> getcomisiones_toadm(Connection c, String nombre, String bd) {
+        ArrayList<Comision> arr = new ArrayList<>();
+        try {
+            String sql = "select id_comision,c.id_agente,referencia,dias,c.comision,"
+                    + "convert(date,fecha) as fecha, importe, tipocambio,c.estatus,"
+                    + "porcentaje,serie,a.nombre\n"
+                    + " from comisiones c\n"
+                    + " join " + bd + ".dbo.agente a on c.id_agente=a.id_agente\n"
+                    + " where a.nombre like '%" + nombre + "%' and c.estatus='1'";
+//            System.out.println(sql);
+            PreparedStatement st;
+            ResultSet rs;
+            st = c.prepareStatement(sql);
+            rs = st.executeQuery();
+            while (rs.next()) {
+                Comision s = new Comision();
+                s.setId_comision(rs.getInt("id_comision"));
+                s.setReferencia(rs.getString("referencia"));
+                s.setImporte(rs.getDouble("importe"));
+                s.setDias(rs.getInt("dias"));
+                s.setComision(rs.getDouble("comision"));
+                s.setFecha(rs.getString("fecha"));
+                s.setPorcentaje(rs.getInt("porcentaje"));
+                s.setNagente(rs.getString("nombre"));
+                s.setEstatus(rs.getString("estatus"));
+                arr.add(s);
+            }
+            rs.close();
+            st.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(sql_comisiones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return arr;
+    }
+
+    public boolean Comisionpagada(Connection c, ArrayList<Comision> arr) {
+        try {
+            PreparedStatement st=null;
+            c.setAutoCommit(false);
+            for (Comision arr2 : arr) {
+                String sql = "update Comisiones set estatus='2' where id_comision=?";
+                st = c.prepareStatement(sql);
+                st.setInt(1, arr2.getId_comision());
+                st.executeUpdate();
+            }
+            st.close();
+            c.commit();
+            return true;
+        } catch (SQLException ex) {
+            try {
+                c.rollback();
+                Logger.getLogger(sql_comisiones.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex1) {
+                Logger.getLogger(sql_comisiones.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+            return false;
+        }
+    }
 }

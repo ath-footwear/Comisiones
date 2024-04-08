@@ -9,11 +9,28 @@ package Modelo;
  *
  * @author GATEWAY1-
  */
-public class Comision {
+public class Comision implements java.io.Serializable{
 
-    private int id_cargo, dias, id_agente, porcentaje;
+    private int id_cargo, dias, id_agente, porcentaje, id_comision;
     private String moneda, fecha, usuario, estatus, serie, referencia, foliopago;
     private double importe, comision, tipocambio;
+    private String nagente;
+
+    public String getNagente() {
+        return nagente;
+    }
+
+    public void setNagente(String nagente) {
+        this.nagente = nagente;
+    }
+
+    public int getId_comision() {
+        return id_comision;
+    }
+
+    public void setId_comision(int id_comision) {
+        this.id_comision = id_comision;
+    }
 
     public int getPorcentaje() {
         return porcentaje;
