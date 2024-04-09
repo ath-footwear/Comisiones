@@ -29,8 +29,9 @@ public class dao_comisiones implements int_Comision {
      * @return
      */
     @Override
-    public ArrayList<Comision> getcomisiones(Connection c, String fecha, String referencia) {
-        return s.getcomisiones(c, fecha, referencia);
+    public ArrayList<Comision> getcomisiones(Connection c, String fecha, 
+            String referencia, String turno) {
+        return s.getcomisiones(c, fecha, referencia, turno);
     }
 
     /**
@@ -70,8 +71,9 @@ public class dao_comisiones implements int_Comision {
      * @return
      */
     @Override
-    public ArrayList<Comision> getcomisiones_Especial(Connection c, String fecha, String referencia) {
-        return s.getcomisiones_Especial(c, fecha, referencia);
+    public ArrayList<Comision> getcomisiones_Especial(Connection c, String fecha,
+            String referencia, String turno) {
+        return s.getcomisiones_Especial(c, fecha, referencia, turno);
     }
 
     /**
