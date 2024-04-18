@@ -26,11 +26,13 @@ public class dao_comisiones implements int_Comision {
      * @param c
      * @param fecha
      * @param referencia
+     * @param turno
      * @return
      */
     @Override
-    public ArrayList<Comision> getcomisiones(Connection c, String fecha, String referencia) {
-        return s.getcomisiones(c, fecha, referencia);
+    public ArrayList<Comision> getcomisiones(Connection c, String fecha,
+            String referencia, String turno) {
+        return s.getcomisiones(c, fecha, referencia, turno);
     }
 
     /**
@@ -67,11 +69,13 @@ public class dao_comisiones implements int_Comision {
      * @param c
      * @param fecha
      * @param referencia
+     * @param turno
      * @return
      */
     @Override
-    public ArrayList<Comision> getcomisiones_Especial(Connection c, String fecha, String referencia) {
-        return s.getcomisiones_Especial(c, fecha, referencia);
+    public ArrayList<Comision> getcomisiones_Especial(Connection c, String fecha,
+            String referencia, String turno) {
+        return s.getcomisiones_Especial(c, fecha, referencia, turno);
     }
 
     /**
@@ -93,12 +97,26 @@ public class dao_comisiones implements int_Comision {
      * sido entregada al agente
      *
      * @param c
-     * @param com
+     * @param arr
      * @return
      */
     @Override
     public boolean Comisionpagada(Connection c, ArrayList<Comision> arr) {
         return s.Comisionpagada(c, arr);
+    }
+
+    /**
+     * Cancela la comision realizada, es similar a la primer funcion, solo que
+     * en esta tambien utiliza la referencia de la factura y no solo el cargo y
+     * la serie
+     *
+     * @param c
+     * @param arr
+     * @return
+     */
+    @Override
+    public boolean cancelacomision_pagos(Connection c, ArrayList<Comision> arr) {
+        return s.cancelacomision_pago(c, arr);
     }
 
 }

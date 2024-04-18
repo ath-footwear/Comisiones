@@ -15,15 +15,17 @@ import java.util.ArrayList;
  */
 public interface int_Comision {
 
-    public ArrayList<Comision> getcomisiones(Connection c, String fecha, String referencia);
+    public ArrayList<Comision> getcomisiones(Connection c, String fecha, String referencia, String turno);
     
     public ArrayList<Comision> getcomisiones_toadm(Connection c, String nombre, String bd);
     
-    public ArrayList<Comision> getcomisiones_Especial(Connection c, String fecha, String referencia);
+    public ArrayList<Comision> getcomisiones_Especial(Connection c, String fecha, String referencia, String turno);
 
     public boolean newcomision(Connection c, ArrayList<Comision> arr);
     
     public boolean cancelacomision(Connection c, ArrayList<Comision> arr);
+    
+    public boolean cancelacomision_pagos(Connection c, ArrayList<Comision> arr);
     
     public boolean Comisionpagada(Connection c, ArrayList<Comision> arr);
 }
