@@ -25,6 +25,7 @@ public class sql_comisiones {
             String referencia, String turno) {
         ArrayList<Comision> arr = new ArrayList<>();
         Porcentajes p = new Porcentajes(turno);
+        p.getporcentaje();
         int p0 = p.getP0();
         int p1 = p.getP1();
         int p2 = p.getP2();
@@ -128,10 +129,37 @@ public class sql_comisiones {
         }
     }
 
+    public boolean cancelacomision_pago(Connection c, ArrayList<Comision> arr) {
+        try {
+            PreparedStatement st;
+            c.setAutoCommit(false);
+            for (Comision com : arr) {
+                String sql = "update Comisiones set estatus='0' where id_cargo=?"
+                        + " and serie=? and referencia=?";
+                st = c.prepareStatement(sql);
+                st.setInt(1, com.getId_cargo());
+                st.setString(2, com.getSerie());
+                st.setString(3, com.getReferencia());
+                st.executeUpdate();
+            }
+            c.commit();
+            return true;
+        } catch (SQLException ex) {
+            try {
+                c.rollback();
+                Logger.getLogger(sql_comisiones.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex1) {
+                Logger.getLogger(sql_comisiones.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+            return false;
+        }
+    }
+
     public ArrayList<Comision> getcomisiones_Especial(Connection c, String fecha,
             String referencia, String turno) {
         ArrayList<Comision> arr = new ArrayList<>();
         Porcentajes p = new Porcentajes(turno);
+        p.getporcentaje();
         int p0 = p.getP0();
         int p1 = p.getP1();
         int p2 = p.getP2();

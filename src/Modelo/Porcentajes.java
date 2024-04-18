@@ -19,7 +19,6 @@ public class Porcentajes {
     }
 
     public void getporcentaje() {
-        turno = "5";
         switch (turno) {
             case "5":
                 P0 = 3;
@@ -37,6 +36,12 @@ public class Porcentajes {
                 P0 = 5;
                 P1 = 3;
                 P2 = 2;
+                PX = 0;
+                break;
+            default:
+                P0 = 3;
+                P1 = 2;
+                P2 = 1;
                 PX = 0;
                 break;
         }

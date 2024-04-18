@@ -25,5 +25,7 @@ public interface int_Comision {
     
     public boolean cancelacomision(Connection c, ArrayList<Comision> arr);
     
+    public boolean cancelacomision_pagos(Connection c, ArrayList<Comision> arr);
+    
     public boolean Comisionpagada(Connection c, ArrayList<Comision> arr);
 }
